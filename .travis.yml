@@ -4,5 +4,4 @@ os:
   - osx
   - windows
 julia:
-  - 1.0
   - 1.5
