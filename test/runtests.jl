@@ -2,6 +2,10 @@
 using Lebedev
 using Test
 
+# Essentially all functions generating the points and the weights (ldxxxx!(...))
+# depend on gen_oh!(...), such that we do a thorough unit test on the latter.
+# For the ldxxxx!(...) functions we do an integration test and do not mock the
+# calls to gen_oh!(...), hence those tests depend on the output of gen_oh!(...).
 
 @testset "gen_oh" begin
     # initialize these arrays to some length greater than really needed
@@ -12,46 +16,61 @@ using Test
     w = zeros(N)
     a = b = 0.0
     v = 0.5
+    n = 0
 
     # code 1, write in x, y, z, and w from index n+1
     code = 1
-    n = 0
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
 
+    # test x
     @test x[1] ==  1.0
-    @test count(!iszero,x) == 2
+    @test x[2] == -1.0
+    @test all(x[ 3:6 ] .==  0.0 )
+    # test y
+    @test all( y[ [1:2 ; 5:6] ] .==  0.0 )
+    @test y[3] ==  1.0
     @test y[4] == -1.0
-    @test count(!iszero,y) == 2
+    # test z
+    @test all( z[ 1:4 ] .==  0.0 )
     @test z[5] ==  1.0
-    @test count(!iszero,z) == 2
+    @test z[6] == -1.0
     # code 1 sets 6 elements
     @test n == 6
 
     # code 2, write in x, y, z, and w from index n+1
     code = 2
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
-
     ã = 1.0 / sqrt(2.0)
-    @test x[13] ≈ -ã
-    @test count(!iszero,x[7:n]) == 8
-    @test y[10] ≈ -ã
-    @test count(!iszero,y[7:n]) == 8
-    @test z[11] ≈  ã
-    @test count(!iszero,z[7:n]) == 8
+    
+    # test x
+    @test all( x[ 7:10 ] .==  0.0 )
+    @test all( x[ [11:12 ; 15:16] ] .==  ã )
+    @test all( x[ [13:14 ; 17:18] ] .== -ã )
+    # test y
+    @test all( y[ [7:8  ; 15 ; 17] ] .==  ã )
+    @test all( y[ [9:10 ; 16 ; 18] ] .== -ã )
+    @test all( y[ 11:14 ] .==  0.0 )
+    # test z
+    @test all( z[ [7 ;  9 ; 11 ; 13] ] .==  ã )
+    @test all( z[ [8 ; 10 ; 12 ; 14] ] .== -ã )
+    @test all( z[ 15:18 ] .==  0.0 )
     # code 2 sets 12 elements
     @test n == 18
 
     # code 3, write in x, y, z, and w from index n+1
     code = 3
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
-
     ã = 1.0 / sqrt(3.0)
-    @test x[19] ≈  ã
-    @test count(!iszero,x[19:n]) == 8
-    @test y[20] ≈  ã
-    @test count(!iszero,y[19:n]) == 8
-    @test z[21] ≈  ã
-    @test count(!iszero,z[19:n]) == 8
+
+    # test x
+    @test all( x[ 19:22 ] .==  ã )
+    @test all( x[ 23:26 ] .== -ã )
+    # test y
+    @test all( y[ [19:20 ; 23:24] ] .==  ã )
+    @test all( y[ [21:22 ; 25:26] ] .== -ã )
+    # test z
+    @test all( z[ [19;21 ; 23;25] ] .==  ã )
+    @test all( z[ [20;22 ; 24;26] ] .== -ã )
     # code 3 sets 8 elements
     @test n == 26
 
@@ -59,17 +78,23 @@ using Test
     code = 4
     a = 0.5
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
-
     b̃ = sqrt(1.0 - 2.0*a^2)
-    @test x[30] ≈  a
-    @test x[50] ≈ -b̃
-    @test count(!iszero,x[27:n]) == 24
-    @test y[29] ≈ -a
-    @test y[36] ≈ -b̃
-    @test count(!iszero,y[27:n]) == 24
-    @test z[27] ≈  b̃
-    @test z[37] ≈ -a
-    @test count(!iszero,z[27:n]) == 24
+
+    # test x
+    @test all( x[ [27:30 ; 35:38] ] .==  a )
+    @test all( x[ [31:34 ; 39:42] ] .== -a )
+    @test all( x[ [43 ; 45 ; 47 ; 49] ] .==  b̃ )
+    @test all( x[ [44 ; 46 ; 48 ; 50] ] .== -b̃ )
+    # test y
+    @test all( y[ [27:28 ; 31:32 ; 43:46] ] .==  a )
+    @test all( y[ [29:30 ; 33:34 ; 47:50] ] .== -a )
+    @test all( y[ [35 ; 37 ; 39 ; 41] ] .==  b̃ )
+    @test all( y[ [36 ; 38 ; 40 ; 42] ] .== -b̃ )
+    # test z
+    @test all( z[ [27 ; 29 ; 31 ; 33] ] .==  b̃ )
+    @test all( z[ [28 ; 30 ; 32 ; 34] ] .== -b̃ )
+    @test all( z[ [35:36 ; 39:40 ; 43:44 ; 47:48] ] .==  a )
+    @test all( z[ [37:38 ; 41:42 ; 45:46 ; 49:50] ] .== -a )
     # code 4 sets 24 elements
     @test n == 50
 
@@ -77,17 +102,26 @@ using Test
     code = 5
     a = 0.5
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
-
     b̃ = sqrt(1.0 - a^2)
-    @test x[51] ≈  a
-    @test x[58] ≈ -b̃
-    @test count(!iszero,x[51:n]) == 16
-    @test y[56] ≈ -a
-    @test y[73] ≈ -b̃
-    @test count(!iszero,y[51:n]) == 16
-    @test z[67] ≈  b̃
-    @test z[72] ≈ -a
-    @test count(!iszero,z[51:n]) == 16
+
+    # test x
+    @test all( x[ [51:52 ; 59:60] ] .==  a )
+    @test all( x[ [53:54 ; 61:62] ] .== -a )
+    @test all( x[ [55:56 ; 63:64] ] .==  b̃ )
+    @test all( x[ [57:58 ; 65:66] ] .== -b̃ )
+    @test all( x[ 67:74 ] .== 0.0 )
+    # test y
+    @test all( y[ [51 ; 53 ; 71:72] ] .==  b̃ )
+    @test all( y[ [52 ; 54 ; 73:74] ] .== -b̃ )
+    @test all( y[ 59:66 ] .== 0.0 )
+    @test all( y[ [55 ; 57 ; 67:68] ] .==  a )
+    @test all( y[ [56 ; 58 ; 69:70] ] .== -a )
+    # test z
+    @test all( z[ 51:58 ] .== 0.0 )
+    @test all( z[ [59 ; 61 ; 67 ; 69] ] .==  b̃ )
+    @test all( z[ [60 ; 62 ; 68 ; 70] ] .== -b̃ )
+    @test all( z[ [63 ; 65 ; 71 ; 73] ] .==  a )
+    @test all( z[ [64 ; 66 ; 72 ; 74] ] .== -a )
     # code 5 sets 24 elements
     @test n == 74
 
@@ -96,22 +130,32 @@ using Test
     a = 0.5
     b = 0.5
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
-
     c̃ = sqrt(1.0 - a^2 - b^2)
-    @test x[75]  ≈  a
-    @test x[104] ≈ -b
-    @test x[114] ≈ -c̃
-    @test count(!iszero,x[75:n]) == 48
-    @test y[76]  ≈  b
-    @test y[94]  ≈ -a
-    @test y[105] ≈ -c̃
-    @test count(!iszero,y[75:n]) == 48
-    @test z[90]  ≈ -b
-    @test z[97]  ≈  c̃
-    @test z[122] ≈ -a
-    @test count(!iszero,z[75:n]) == 48
+
+    # test x
+    @test all( x[ [ 75:78  ;  83:86 ] ] .==  a )
+    @test all( x[ [ 79:82  ;  87:90 ] ] .== -a )
+    @test all( x[ [ 91:94  ;  99:102] ] .==  b )
+    @test all( x[ [ 95:98  ; 103:106] ] .== -b )
+    @test all( x[ [107:110 ; 115:118] ] .==  c̃ )
+    @test all( x[ [111:114 ; 119:122] ] .== -c̃ )
+    # test y
+    @test all( y[ [75:76 ; 79:80 ; 115:116 ; 119:120] ] .==  b )
+    @test all( y[ [77:78 ; 81:82 ; 117:118 ; 121:122] ] .== -b )
+    @test all( y[ [83:84 ; 87:88 ;  99:100 ; 103:104] ] .==  c̃ )
+    @test all( y[ [85:86 ; 89:90 ; 101:102 ; 105:106] ] .== -c̃ )
+    @test all( y[ [91:92 ; 95:96 ; 107:108 ; 111:112] ] .==  a )
+    @test all( y[ [93:94 ; 97:98 ; 109:110 ; 113:114] ] .== -a )
+    # test z
+    @test all( z[ [75  ; 77  ; 79  ; 81  ; 91  ; 93  ; 95  ; 97] ] .==  c̃ )
+    @test all( z[ [76  ; 78  ; 80  ; 82  ; 92  ; 94  ; 96  ; 98] ] .== -c̃ )
+    @test all( z[ [83  ; 85  ; 87  ; 89  ; 107 ; 109 ; 111 ; 113] ] .==  b )
+    @test all( z[ [84  ; 86  ; 88  ; 90  ; 108 ; 110 ; 112 ; 114] ] .== -b )
+    @test all( z[ [99  ; 101 ; 103 ; 105 ; 115 ; 117 ; 119 ; 121] ] .==  a )
+    @test all( z[ [100 ; 102 ; 104 ; 106 ; 116 ; 118 ; 120 ; 122] ] .== -a )
     # code 6 sets 48 elements
     @test n == 122
     
+    # test that all weights are correctly set
     @test all(w .== v)
 end
