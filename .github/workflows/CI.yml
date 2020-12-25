@@ -14,8 +14,14 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   test:
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        version: ['^1.5']
+    
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -24,7 +30,9 @@ jobs:
       # Install julia into VM
       - uses: julia-actions/setup-julia@latest
         with:
-          version: '^1.5'
+          version: ${{ matrix.version }}
+      # build the Lebedev package
       - uses: julia-actions/julia-buildpkg@latest
+      # run tests for the Lebedev package
       - uses: julia-actions/julia-runtest@latest
       
