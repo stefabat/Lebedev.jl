@@ -8,6 +8,6 @@ module Lebedev
 
 include("sphere_lebedev_rule.jl")
 
+export lebedev
 
-
-end # module
+end

@@ -7,7 +7,7 @@ Generate points under Oₕ symmetry.
 Given a point on a sphere, specified by `a` and `b`, this function generates
 all the equivalent points under Oₕ symmetry, making grid points with weight `v`.
 The input arrays `x`, `y`, `z` and `w` are modified in-place starting at index `n+1`.
-The function returns the number of elements modified in the arrays.
+The function returns the number of elements modified in the input arrays.
 
 Depending on the symmetry group defined by `code`, there are from 6 to 48 different
 but equivalent points that are generated:
@@ -18,22 +18,6 @@ code=3:   (a,a,a) etc, a=1/sqrt(3)                     ( 8 points)
 code=4:   (a,a,b) etc, b=sqrt(1 - 2a²)                 (24 points)
 code=5:   (a,b,0) etc, b=sqrt(1 - a²), a input         (24 points)
 code=6:   (a,b,c) etc, c=sqrt(1 - a² - b²), a, b input (48 points)
-
-Modified:
-
-11 September 2010
-
-Author:
-
-Dmitri Laikov
-
-Reference:
-
-Vyacheslav Lebedev, Dmitri Laikov,
-A quadrature formula for the sphere of the 131st
-algebraic order of accuracy,
-Russian Academy of Sciences Doklady Mathematics,
-Volume 59, Number 3, 1999, pages 477-481.
 """
 function gen_oh!(code::Integer, a::Real, b::Real, v::Real, n::Integer,
                  x::AbstractArray, y::AbstractArray, z::AbstractArray, w::AbstractArray)
@@ -187,44 +171,40 @@ end
 
 
 """
-  Purpose:
+    function ld0026!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
-    LD0026 computes the 26 point Lebedev angular grid.
-
-  Modified:
-
-    12 September 2010
-
-  Author:
-
-    Dmitri Laikov
-
-  Reference:
-
-    Vyacheslav Lebedev, Dmitri Laikov,
-    A quadrature formula for the sphere of the 131st
-    algebraic order of accuracy,
-    Russian Academy of Sciences Doklady Mathematics,
-    Volume 59, Number 3, 1999, pages 477-481.
-
-  Parameters:
-
-    Output, double X[N], Y[N], Z[N], W[N], the coordinates
-    and weights of the points.
+Compute the 26 point Lebedev angular grid.
 """
 function ld0026!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
   a = 0.0
   b = 0.0
   n = 0
 
-  v = 0.4761904761904762e-1
-  n = n + gen_oh(1, a, b, v, n, x, y, z, w)
-  v = 0.3809523809523810e-1
-  n = n + gen_oh( 2, a, b, v, x + n, y + n, z + n, w + n )
-  v = 0.3214285714285714e-1
-  n = n + gen_oh( 3, a, b, v, x + n, y + n, z + n, w + n )
-  n = n - 1
+  v  = 0.4761904761904762e-1
+  n += gen_oh!(1, a, b, v, n, x, y, z, w)
+  v  = 0.3809523809523810e-1
+  n += gen_oh!(2, a, b, v, n, x, y, z, w)
+  v  = 0.3214285714285714e-1
+  n += gen_oh!(3, a, b, v, n, x, y, z, w)
+  n  = n - 1
+end
 
+function lebedev(n::Integer)
+
+    # initialize arrays before checking `n` is valid just to avoid repeating
+    # code inside the if block
+    x = zeros(n)
+    y = zeros(n)
+    z = zeros(n)
+    w = zeros(n)
+    
+    if n == 26
+        ld0026!(x, y, z, w)
+    else
+        error("n is not a valid number of points")
+    end
+    
+    return x,y,z,w
 end
 
 
