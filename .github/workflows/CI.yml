@@ -35,4 +35,9 @@ jobs:
       - uses: julia-actions/julia-buildpkg@latest
       # run tests for the Lebedev package
       - uses: julia-actions/julia-runtest@latest
+      # upload report to codecov.io
+      - uses: julia-actions/julia-processcoverage@v1
+      - uses: codecov/codecov-action@v1
+        with:
+          file: lcov.info
       
