@@ -24,7 +24,7 @@ normalized such that they sum up to one.
 
 Vyacheslav Lebedev, Dmitri Laikov,
 “A quadrature formula for the sphere of the 131st algebraic order of accuracy”,
-*Doklady Akademii Nauk*, **366**, 741-745 (1999).
+*Doklady Mathematics*, **59** (3), 477-481 (1999).
 
 ## License
 

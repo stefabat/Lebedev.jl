@@ -158,4 +158,13 @@ using Test
     
     # test that all weights are correctly set
     @test all(w .== v)
+    
+    # test invalid code
+    code = 234
+    @test_throws ErrorException Lebedev.gen_oh!(code, a, b, v, 0, x, y, z, w)
 end
+
+
+# next test suite should be an integration of a polynomial x^k y^l z^m with k+l+m=n
+# where n is the order of the Lebedev rule, such that the result should be comparable
+# to the analytical value
