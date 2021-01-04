@@ -306,12 +306,58 @@ function ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::Abs
 end
 
 
+# function available_orders()
+#     for order = 3:2:129
+#         print("$order, ")
+#     end
+#     print("131\n")
+# end
+
+
+function order2points(n::Integer)
+
+    # sanity checks
+    if iseven(n)
+        error("only odd-numbered orders are available")
+    end
+    
+    if n < 3 || n > 131
+        error("only orders between 3 and 131 are available")
+    end
+
+    # determine the rule, ÷ does integer division
+    rule = (n-1)÷2
+
+    # this array maps the rule number to the number of grid points
+    points = [
+       6,   14,   26,   38,   50,   74,   86,  110,  146,  170,
+     194,  230,  266,  302,  350,  386,  434,  482,  530,  590, 
+     650,  698,  770,  830,  890,  974, 1046, 1118, 1202, 1274,
+    1358, 1454, 1538, 1622, 1730, 1814, 1910, 2030, 2126, 2222,
+    2354, 2450, 2558, 2702, 2810, 2930, 3074, 3182, 3314, 3470,
+    3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
+    5090, 5294, 5438, 5606, 5810]
+    
+    return points[rule]
+end
+
+
 """
-    function lebedev(n::Integer)
+    function lebedev_by_order(n::Integer)
+
+Compute the Lebedev angular grid corresponding to order number `n`.
+"""
+function lebedev_by_order(n::Integer)
+    return lebedev_by_points(order2points(n))
+end
+
+
+"""
+    function lebedev_by_points(n::Integer)
 
 Compute the `n` point Lebedev angular grid.
 """
-function lebedev(n::Integer)
+function lebedev_by_points(n::Integer)
 
     # initialize arrays before checking `n` is valid just to avoid repeating
     # code inside the if block

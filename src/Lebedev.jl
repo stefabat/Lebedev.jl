@@ -8,6 +8,6 @@ module Lebedev
 
 include("sphere_lebedev_rule.jl")
 
-export lebedev
+export lebedev_by_points,lebedev_by_order
 
 end
