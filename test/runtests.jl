@@ -1,6 +1,7 @@
 
 using Lebedev
 using Test
+using SpecialFunctions
 
 # Essentially all functions generating the points and the weights (ldxxxx!(...))
 # depend on gen_oh!(...), such that we do a thorough unit test on the latter.
@@ -164,6 +165,48 @@ using Test
     @test_throws ErrorException Lebedev.gen_oh!(code, a, b, v, 0, x, y, z, w)
 end
 
+
+# Exact formula for the integration of a polynomial over the surface of a sphere
+# See G.Folland, The American Mathematical Monthly, Vol. 108, No. 5 (May, 2001), pp. 446-448.
+function sphere(k::Integer, l::Integer, m::Integer)
+    # if any exponent is odd, the integral is zero by symmetry
+    if isodd(k) || isodd(l) || isodd(m)
+        return 0.0
+    # else calculate its value based on the beta function (made up by gamma functions)
+    else
+        bₖ = (k+1)/2
+        bₗ = (l+1)/2
+        bₘ = (m+1)/2
+        return 2.0*gamma(bₖ)*gamma(bₗ)*gamma(bₘ)/gamma(bₖ+bₗ+bₘ)
+    end
+end
+
+tol = 2e-15
+for order = 3:2:7
+    @testset "lebedev order $order" begin
+        for n = 0:order
+            for k = 0:n
+                for l = 0:n-k
+                    m = n - l - k
+            
+                    x,y,z,w = lebedev_by_order(order)
+            
+            # ccall((:ld0006,"./../lib/libsphere_lebedev_rule.so"), # library to call
+            # Cvoid,   # return type of C function
+            # (Ptr{Cdouble},Ptr{Cdouble},Ptr{Cdouble},Ptr{Cdouble}), # arguments type of C function
+            # x,y,z,w) # actual arguments
+            
+                    integral = 0.0
+                    for i = 1:length(w)
+                        integral += 4.0*pi * w[i] * x[i]^k * y[i]^l * z[i]^m
+                    end
+            
+                    @test integral ≈ sphere(k,l,m) rtol = tol atol = eps()
+                end
+            end
+        end
+    end
+end
 
 # next test suite should be an integration of a polynomial x^k y^l z^m with k+l+m=n
 # where n is the order of the Lebedev rule, such that the result should be comparable
