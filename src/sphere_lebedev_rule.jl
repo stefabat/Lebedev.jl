@@ -1,7 +1,7 @@
 
 """
-    function gen_oh!(code::Integer, a::Real, b::Real, v::Real, n::Integer,
-                     x::AbstractArray, y::AbstractArray, z::AbstractArray, w::AbstractArray)
+    gen_oh!(code::Integer, a::Real, b::Real, v::Real, n::Integer,
+            x::AbstractArray, y::AbstractArray, z::AbstractArray, w::AbstractArray)
 
 Generate points under Oₕ symmetry.
 Given a point on a sphere, specified by `a` and `b`, this function generates
@@ -163,7 +163,7 @@ function gen_oh!(code::Integer, a::Real, b::Real, v::Real, n::Integer,
         x[n+48] =  -c; y[n+48] =  -b; z[n+48] =  -a; w[n+48] = v;
         n = 48
     else
-        error("illegal value of code.")
+        throw(ArgumentError("code must be 1, 2, 3, 4, 5 or 6"))
     end
     
     return n
@@ -171,7 +171,7 @@ end
 
 
 """
-    function ld0006!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0006!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 6 point Lebedev angular grid.
 """
@@ -188,7 +188,7 @@ end
 
 
 """
-    function ld0014!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0014!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 14 point Lebedev angular grid.
 """
@@ -207,7 +207,7 @@ end
 
 
 """
-    function ld0026!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0026!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 26 point Lebedev angular grid.
 """
@@ -228,7 +228,7 @@ end
 
 
 """
-    function ld0038!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0038!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 38 point Lebedev angular grid.
 """
@@ -250,7 +250,7 @@ end
 
 
 """
-    function ld0050!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0050!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 50 point Lebedev angular grid.
 """
@@ -274,7 +274,7 @@ end
 
 
 """
-    function ld0074!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0074!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 74 point Lebedev angular grid.
 """
@@ -301,7 +301,7 @@ end
 
 
 """
-    function ld0086!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0086!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 86 point Lebedev angular grid.
 """
@@ -329,7 +329,89 @@ end
 
 
 """
-    function ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    ld0110!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 110 point Lebedev angular grid.
+"""
+function ld0110!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.3828270494937162e-2
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.9793737512487512e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.1851156353447362
+    v  = 0.8211737283191111e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6904210483822922
+    v  = 0.9942814891178103e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3956894730559419
+    v  = 0.9595471336070963e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4783690288121502
+    v  = 0.9694996361663028e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
+    ld0302!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 302 point Lebedev angular grid.
+"""
+function ld0302!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+    
+    v  = 0.8545911725128148e-3
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.3599119285025571e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.3515640345570105
+    v  = 0.3449788424305883e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6566329410219612
+    v  = 0.3604822601419882e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4729054132581005
+    v  = 0.3576729661743367e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.9618308522614784e-1
+    v  = 0.2352101413689164e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.2219645236294178
+    v  = 0.3108953122413675e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.7011766416089545
+    v  = 0.3650045807677255e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.2644152887060663
+    v  = 0.2982344963171804e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.5718955891878961
+    v  = 0.3600820932216460e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.2510034751770465
+    b  = 0.8000727494073952
+    v  = 0.3571540554273387e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.1233548532583327
+    b  = 0.4127724083168531
+    v  = 0.3392312205006170e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
+    ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
     
 Compute the 590 point Lebedev angular grid.
 """
@@ -407,54 +489,74 @@ function ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::Abs
 end
 
 
-# function available_orders()
-#     for order = 3:2:129
-#         print("$order, ")
-#     end
-#     print("131\n")
-# end
+"""
+    isavailable(n::Integer)
 
-
-function order2points(n::Integer)
-
-    # sanity checks
-    if iseven(n)
-        error("only odd-numbered orders are available")
-    end
-    
-    if n < 3 || n > 131
-        error("only orders between 3 and 131 are available")
-    end
-
-    # determine the rule, ÷ does integer division
-    rule = (n-1)÷2
-
-    # this array maps the rule number to the number of grid points
-    points = [
-       6,   14,   26,   38,   50,   74,   86,  110,  146,  170,
-     194,  230,  266,  302,  350,  386,  434,  482,  530,  590, 
-     650,  698,  770,  830,  890,  974, 1046, 1118, 1202, 1274,
-    1358, 1454, 1538, 1622, 1730, 1814, 1910, 2030, 2126, 2222,
-    2354, 2450, 2558, 2702, 2810, 2930, 3074, 3182, 3314, 3470,
-    3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
-    5090, 5294, 5438, 5606, 5810]
-    
-    return points[rule]
+Check if the Lebedev quadrature rule of order `n` is available.
+"""
+function isavailable(n::Integer)
+    return haskey(rules,n)
 end
 
 
 """
-    function lebedev_by_order(n::Integer)
+    availablerules()
+
+Print a table showing the available Lebedev quadrature rules.
+"""
+function availablerules()
+    println("order | points")
+    println("------|-------")
+    for rule in rules
+        @printf("%5i | %6i\n",rule.first,rule.second)
+    end
+end
+
+
+# function order2points(n::Integer)
+
+#     # sanity checks
+#     if iseven(n)
+#         error("only odd-numbered orders are available")
+#     end
+    
+#     if n < 3 || n > 131
+#         error("only orders between 3 and 131 are available")
+#     end
+
+#     # determine the rule, ÷ does integer division
+#     rule = (n-1)÷2
+
+#     # this array maps the rule number to the number of grid points
+#     points = [
+#        6,   14,   26,   38,   50,   74,   86,  110,  146,  170,
+#      194,  230,  266,  302,  350,  386,  434,  482,  530,  590, 
+#      650,  698,  770,  830,  890,  974, 1046, 1118, 1202, 1274,
+#     1358, 1454, 1538, 1622, 1730, 1814, 1910, 2030, 2126, 2222,
+#     2354, 2450, 2558, 2702, 2810, 2930, 3074, 3182, 3314, 3470,
+#     3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
+#     5090, 5294, 5438, 5606, 5810]
+    
+#     return points[rule]
+# end
+
+
+"""
+    lebedev_by_order(n::Integer)
 
 Compute the Lebedev angular grid corresponding to order number `n`.
 """
 function lebedev_by_order(n::Integer)
-    return lebedev_by_points(order2points(n))
+    if isavailable(n)
+        return lebedev_by_points(rules[n])
+    else
+        throw(ArgumentError("Quadrature order not available"))
+    end
 end
 
 
 """
-    function lebedev_by_points(n::Integer)
+    lebedev_by_points(n::Integer)
 
 Compute the `n` point Lebedev angular grid.
 """
@@ -481,10 +583,14 @@ function lebedev_by_points(n::Integer)
         ld0074!(x, y, z, w)
     elseif n == 86
         ld0086!(x, y, z, w)
+    elseif n == 110
+        ld0110!(x, y, z, w)
+    elseif n == 302
+        ld0302!(x, y, z, w)
     elseif n == 590
         ld0590!(x, y, z, w)
     else
-        error("n is not a valid number of points")
+        throw(ArgumentError("n is not a valid number of points"))
     end
     
     return x,y,z,w
