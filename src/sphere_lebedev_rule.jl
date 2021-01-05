@@ -228,6 +228,107 @@ end
 
 
 """
+    function ld0038!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 38 point Lebedev angular grid.
+"""
+function ld0038!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+  
+    v  = 0.9523809523809524e-2
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.3214285714285714e-1
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.4597008433809831
+    v  = 0.2857142857142857e-1
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+
+    return nothing
+end
+
+
+"""
+    function ld0050!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 50 point Lebedev angular grid.
+"""
+function ld0050!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.1269841269841270e-1
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.2257495590828924e-1
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = 0.2109375000000000e-1
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.3015113445777636
+    v  = 0.2017333553791887e-1
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+
+    return nothing
+end
+
+
+"""
+    function ld0074!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 74 point Lebedev angular grid.
+"""
+function ld0074!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.5130671797338464e-3
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.1660406956574204e-1
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = -0.2958603896103896e-1
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.4803844614152614
+    v  = 0.2657620708215946e-1
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3207726489807764
+    v  = 0.1652217099371571e-1
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
+    function ld0086!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 86 point Lebedev angular grid.
+"""
+function ld0086!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.1154401154401154e-1
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.1194390908585628e-1
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.3696028464541502
+    v  = 0.1111055571060340e-1
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6943540066026664
+    v  = 0.1187650129453714e-1
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3742430390903412
+    v  = 0.1181230374690448e-1
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
     function ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
     
 Compute the 590 point Lebedev angular grid.
@@ -372,6 +473,14 @@ function lebedev_by_points(n::Integer)
         ld0014!(x, y, z, w)
     elseif n == 26
         ld0026!(x, y, z, w)
+    elseif n == 38
+        ld0038!(x, y, z, w)
+    elseif n == 50
+        ld0050!(x, y, z, w)
+    elseif n == 74
+        ld0074!(x, y, z, w)
+    elseif n == 86
+        ld0086!(x, y, z, w)
     elseif n == 590
         ld0590!(x, y, z, w)
     else
