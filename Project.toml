@@ -2,3 +2,7 @@ name = "Lebedev"
 uuid = "c5712dd9-2571-4e23-b661-b4a261421493"
 authors = ["Stefano Battaglia <battaglia1803@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
