@@ -166,6 +166,30 @@ using SpecialFunctions
 end
 
 
+@testset "utilities" begin
+    # only odd orders available
+    @test_throws ErrorException Lebedev.order2points(4)
+    # min order is 3
+    @test_throws ErrorException Lebedev.order2points(1) 
+    # max order is 131
+    @test_throws ErrorException Lebedev.order2points(133) 
+    
+    # test that each order gives the expected number of points
+    expected_points = [
+       6,   14,   26,   38,   50,   74,   86,  110,  146,  170,
+     194,  230,  266,  302,  350,  386,  434,  482,  530,  590, 
+     650,  698,  770,  830,  890,  974, 1046, 1118, 1202, 1274,
+    1358, 1454, 1538, 1622, 1730, 1814, 1910, 2030, 2126, 2222,
+    2354, 2450, 2558, 2702, 2810, 2930, 3074, 3182, 3314, 3470,
+    3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
+    5090, 5294, 5438, 5606, 5810]
+    
+    for n = 3:2:131
+        @test Lebedev.order2points(n) == expected_points[(n-1)÷2]
+    end
+end
+
+
 # Exact formula for the integration of a polynomial over the surface of a sphere
 # See G.Folland, The American Mathematical Monthly, Vol. 108, No. 5 (May, 2001), pp. 446-448.
 function sphere(k::Integer, l::Integer, m::Integer)
@@ -181,20 +205,24 @@ function sphere(k::Integer, l::Integer, m::Integer)
     end
 end
 
+
+# test error handling of lebedev_by_points
+@testset "lebedev error handling" begin
+    @test_throws ErrorException lebedev_by_points(31)
+end
+
+
+# the expected relative tolerance of this quadrature rule is 2⋅10⁻¹⁵
 tol = 2e-15
-for order = 3:2:7
+for order = 3:2:15
     @testset "lebedev order $order" begin
         for n = 0:order
             for k = 0:n
                 for l = 0:n-k
                     m = n - l - k
             
+                    # calculate quadrature points
                     x,y,z,w = lebedev_by_order(order)
-            
-            # ccall((:ld0006,"./../lib/libsphere_lebedev_rule.so"), # library to call
-            # Cvoid,   # return type of C function
-            # (Ptr{Cdouble},Ptr{Cdouble},Ptr{Cdouble},Ptr{Cdouble}), # arguments type of C function
-            # x,y,z,w) # actual arguments
             
                     integral = 0.0
                     for i = 1:length(w)
@@ -208,6 +236,4 @@ for order = 3:2:7
     end
 end
 
-# next test suite should be an integration of a polynomial x^k y^l z^m with k+l+m=n
-# where n is the order of the Lebedev rule, such that the result should be comparable
-# to the analytical value
+# include("ccall.jl")
