@@ -360,6 +360,117 @@ end
 
 
 """
+    ld0146!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 146 point Lebedev angular grid.
+"""
+function ld0146!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.5996313688621381e-3
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.7372999718620756e-2
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = 0.7210515360144488e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.6764410400114264
+    v  = 0.7116355493117555e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4174961227965453
+    v  = 0.6753829486314477e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1574676672039082
+    v  = 0.7574394159054034e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1403553811713183
+    b  = 0.4493328323269557
+    v  = 0.6991087353303262e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+
+    return nothing
+end
+
+
+"""
+    ld0170!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 170 point Lebedev angular grid.
+"""
+function ld0170!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+
+    v  = 0.5544842902037365e-2
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.6071332770670752e-2
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = 0.6383674773515093e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.2551252621114134
+    v  = 0.5183387587747790e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6743601460362766
+    v  = 0.6317929009813725e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4318910696719410
+    v  = 0.6201670006589077e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.2613931360335988
+    v  = 0.5477143385137348e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.4990453161796037
+    b  = 0.1446630744325115
+    v  = 0.5968383987681156e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+
+    return nothing
+end
+
+
+"""
+    ld0194!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 194 point Lebedev angular grid.
+"""
+function ld0194!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+  
+    v  = 0.1782340447244611e-2
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.5716905949977102e-2
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = 0.5573383178848738e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.6712973442695226
+    v  = 0.5608704082587997e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.2892465627575439
+    v  = 0.5158237711805383e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4446933178717437
+    v  = 0.5518771467273614e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1299335447650067
+    v  = 0.4106777028169394e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3457702197611283
+    v  = 0.5051846064614808e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.1590417105383530
+    b  = 0.8360360154824589
+    v  = 0.5530248916233094e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+
+    return nothing
+end
+
+
+"""
     ld0302!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
 
 Compute the 302 point Lebedev angular grid.
@@ -585,12 +696,18 @@ function lebedev_by_points(n::Integer)
         ld0086!(x, y, z, w)
     elseif n == 110
         ld0110!(x, y, z, w)
+    elseif n == 146
+        ld0146!(x, y, z, w)
+    elseif n == 170
+        ld0170!(x, y, z, w)
+    elseif n == 194
+        ld0194!(x, y, z, w)
     elseif n == 302
         ld0302!(x, y, z, w)
     elseif n == 590
         ld0590!(x, y, z, w)
     else
-        throw(ArgumentError("n is not a valid number of points"))
+        throw(ArgumentError("n is not a valid number of grid points"))
     end
     
     return x,y,z,w
