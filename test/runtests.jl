@@ -215,9 +215,10 @@ end
 
 # I adapt the relative tolerance to the tightest possible such that all tests are passed
 tol = 5e-14
+last_order = 0
 for order in keys(Lebedev.rules)
     @testset "lebedev order $order" begin
-        for n = 0:order
+        for n = last_order:order
             for k = 0:n
                 for l = 0:n-k
                     m = n - l - k
@@ -235,6 +236,7 @@ for order in keys(Lebedev.rules)
             end
         end
     end
+    global last_order = order
 end
 
 # include("ccall.jl")
