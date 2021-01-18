@@ -613,6 +613,125 @@ end
 
 
 """
+    ld0350!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 350 point Lebedev angular grid.
+"""
+function ld0350!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+    
+    v  = 0.3006796749453936e-2
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.3050627745650771e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.7068965463912316
+    v  = 0.1621104600288991e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4794682625712025
+    v  = 0.3005701484901752e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1927533154878019
+    v  = 0.2990992529653774e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6930357961327123
+    v  = 0.2982170644107595e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3608302115520091
+    v  = 0.2721564237310992e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6498486161496169
+    v  = 0.3033513795811141e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1932945013230339
+    v  = 0.3007949555218533e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.3800494919899303
+    v  = 0.2881964603055307e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.2899558825499574
+    b  = 0.7934537856582316
+    v  = 0.2958357626535696e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.9684121455103957e-1
+    b  = 0.8280801506686862
+    v  = 0.3036020026407088e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.1833434647041659
+    b  = 0.9074658265305127
+    v  = 0.2832187403926303e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
+    ld0434!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+
+Compute the 434 point Lebedev angular grid.
+"""
+function ld0434!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
+    a = 0.0
+    b = 0.0
+    n = 0
+    
+    v  = 0.5265897968224436e-3
+    n += gen_oh!(1, a, b, v, n, x, y, z, w)
+    v  = 0.2548219972002607e-2
+    n += gen_oh!(2, a, b, v, n, x, y, z, w)
+    v  = 0.2512317418927307e-2
+    n += gen_oh!(3, a, b, v, n, x, y, z, w)
+    a  = 0.6909346307509111
+    v  = 0.2530403801186355e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.1774836054609158
+    v  = 0.2014279020918528e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.4914342637784746
+    v  = 0.2501725168402936e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.6456664707424256
+    v  = 0.2513267174597564e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.2861289010307638
+    v  = 0.2302694782227416e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.7568084367178018e-1
+    v  = 0.1462495621594614e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.3927259763368002
+    v  = 0.2445373437312980e-2
+    n += gen_oh!(4, a, b, v, n, x, y, z, w)
+    a  = 0.8818132877794288
+    v  = 0.2417442375638981e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.9776428111182649
+    v  = 0.1910951282179532e-2
+    n += gen_oh!(5, a, b, v, n, x, y, z, w)
+    a  = 0.2054823696403044
+    b  = 0.8689460322872412
+    v  = 0.2416930044324775e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.5905157048925271
+    b  = 0.7999278543857286
+    v  = 0.2512236854563495e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.5550152361076807
+    b  = 0.7717462626915901
+    v  = 0.2496644054553086e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    a  = 0.9371809858553722
+    b  = 0.3344363145343455
+    v  = 0.2236607760437849e-2
+    n += gen_oh!(6, a, b, v, n, x, y, z, w)
+    
+    return nothing
+end
+
+
+"""
     ld0590!(x::AbstractVector, y::AbstractVector, z::AbstractVector, w::AbstractVector)
     
 Compute the 590 point Lebedev angular grid.
@@ -799,6 +918,10 @@ function lebedev_by_points(n::Integer)
         ld0266!(x, y, z, w)
     elseif n == 302
         ld0302!(x, y, z, w)
+    elseif n == 350
+        ld0350!(x, y, z, w)
+    elseif n == 434
+        ld0434!(x, y, z, w)
     elseif n == 590
         ld0590!(x, y, z, w)
     else
