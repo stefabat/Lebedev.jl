@@ -26,7 +26,9 @@ const rules = OrderedDict(
     47 =>  770,
     53 =>  974,
     59 => 1202,
-    65 => 1454
+    65 => 1454,
+    71 => 1730,
+    77 => 2030
 )
 
 include("sphere_lebedev_rule.jl")
