@@ -166,30 +166,6 @@ using SpecialFunctions
 end
 
 
-# @testset "utilities" begin
-    # # only odd orders available
-    # @test_throws ErrorException Lebedev.order2points(4)
-    # # min order is 3
-    # @test_throws ErrorException Lebedev.order2points(1) 
-    # # max order is 131
-    # @test_throws ErrorException Lebedev.order2points(133) 
-    
-    # # test that each order gives the expected number of points
-    # expected_points = [
-    #    6,   14,   26,   38,   50,   74,   86,  110,  146,  170,
-    #  194,  230,  266,  302,  350,  386,  434,  482,  530,  590, 
-    #  650,  698,  770,  830,  890,  974, 1046, 1118, 1202, 1274,
-    # 1358, 1454, 1538, 1622, 1730, 1814, 1910, 2030, 2126, 2222,
-    # 2354, 2450, 2558, 2702, 2810, 2930, 3074, 3182, 3314, 3470,
-    # 3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
-    # 5090, 5294, 5438, 5606, 5810]
-    
-    # for n = 3:2:131
-    #     @test Lebedev.order2points(n) == expected_points[(n-1)÷2]
-    # end
-# end
-
-
 # Exact formula for the integration of a polynomial over the surface of a sphere
 # See G.Folland, The American Mathematical Monthly, Vol. 108, No. 5 (May, 2001), pp. 446-448.
 function sphere(k::Integer, l::Integer, m::Integer)
@@ -213,14 +189,63 @@ end
 end
 
 
-# I adapt the relative tolerance to the tightest possible such that all tests are passed
+# relative tolerance of the integration scheme
 tol = 5e-14
-last_order = 0
+
+
+#######
+# test the integration of all possible combinations of the polynomial xᵏyˡzᵐ with k+l+m = n
+# NOTE: this takes a lot of time, hence it is disabled by default
+# last_order = 0
+# for order in keys(Lebedev.rules)
+#     @testset "lebedev order $order" begin
+#         for n = last_order+1:order
+#             for k = 0:n
+#                 for l = 0:n-k
+#                     m = n - l - k
+            
+#                     # calculate quadrature points
+#                     x,y,z,w = lebedev_by_order(order)
+            
+#                     integral = 0.0
+#                     for i = 1:length(w)
+#                         integral += 4.0*pi * w[i] * x[i]^k * y[i]^l * z[i]^m
+#                     end
+            
+#                     @test integral ≈ sphere(k,l,m) rtol = tol atol = tol
+#                 end
+#             end
+#         end
+#     end
+#     global last_order = order
+# end
+
+########
+# shorter test, for each order, test all possible combinations of even and
+# odd orders (k and l) on x and y, with the order (m) of z obtained to sum up to n
+
+# special case for order 3
+@testset "lebedev order 3" begin
+    # calculate quadrature points
+    x,y,z,w = lebedev_by_order(3)
+
+    integral = 0.0
+    for i = 1:length(w)
+        integral += 4.0*pi * w[i] * x[i] * y[i] * z[i]
+    end
+
+    @test integral ≈ sphere(1,1,1) rtol = tol atol = tol
+end
+
+last_order = 3
 for order in keys(Lebedev.rules)
+    if order == 3
+        continue
+    end
     @testset "lebedev order $order" begin
-        for n = last_order:order
-            for k = 0:n
-                for l = 0:n-k
+        for n = last_order+1:order
+            for k = 1:2
+                for l = 1:2
                     m = n - l - k
             
                     # calculate quadrature points
