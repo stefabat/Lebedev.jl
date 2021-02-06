@@ -42,7 +42,7 @@ using SpecialFunctions
     code = 2
     n += Lebedev.gen_oh!(code, a, b, v, n, x, y, z, w)
     ã = 1.0 / sqrt(2.0)
-    
+
     # test x
     @test all( x[ 7:10 ] .==  0.0 )
     @test all( x[ [11:12 ; 15:16] ] .==  ã )
@@ -156,10 +156,10 @@ using SpecialFunctions
     @test all( z[ [100 ; 102 ; 104 ; 106 ; 116 ; 118 ; 120 ; 122] ] .== -a )
     # code 6 sets 48 elements
     @test n == 122
-    
+
     # test that all weights are correctly set
     @test all(w .== v)
-    
+
     # test invalid code
     code = 234
     @test_throws ArgumentError Lebedev.gen_oh!(code, a, b, v, 0, x, y, z, w)
@@ -203,15 +203,15 @@ tol = 5e-14
 #             for k = 0:n
 #                 for l = 0:n-k
 #                     m = n - l - k
-            
+
 #                     # calculate quadrature points
 #                     x,y,z,w = lebedev_by_order(order)
-            
+
 #                     integral = 0.0
 #                     for i = 1:length(w)
 #                         integral += 4.0*pi * w[i] * x[i]^k * y[i]^l * z[i]^m
 #                     end
-            
+
 #                     @test integral ≈ sphere(k,l,m) rtol = tol atol = tol
 #                 end
 #             end
@@ -247,15 +247,15 @@ for order in keys(Lebedev.rules)
             for k = 1:2
                 for l = 1:2
                     m = n - l - k
-            
+
                     # calculate quadrature points
                     x,y,z,w = lebedev_by_order(order)
-            
+
                     integral = 0.0
                     for i = 1:length(w)
                         integral += 4.0*pi * w[i] * x[i]^k * y[i]^l * z[i]^m
                     end
-            
+
                     @test integral ≈ sphere(k,l,m) rtol = tol atol = tol
                 end
             end
