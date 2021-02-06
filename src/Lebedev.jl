@@ -4,7 +4,7 @@ module Lebedev
 using Printf: @printf
 using OrderedCollections: OrderedDict
 
-# Implemented quadrature rules available in the package, stored as (order,points) pairs
+# the implemented quadrature rules are stored as (order,points) pairs
 const rules = OrderedDict(
      3  =>    6,
      5  =>   14,
@@ -32,7 +32,11 @@ const rules = OrderedDict(
     83  => 2354,
     89  => 2702,
     95  => 3074,
-    101 => 3470
+    101 => 3470,
+    107 => 3890,
+    113 => 4334,
+    119 => 4802,
+    125 => 5294
 )
 
 include("sphere_lebedev_rule.jl")

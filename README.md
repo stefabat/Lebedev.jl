@@ -85,8 +85,6 @@ julia> @time 4 * pi * dot(w,f.(x,y,z))
   0.000063 seconds (5 allocations: 768 bytes)
 0.0041846055991871965
 ```
-
-
 ## Reference
 
 Vyacheslav Lebedev, Dmitri Laikov,

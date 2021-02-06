@@ -192,37 +192,8 @@ end
 # relative tolerance of the integration scheme
 tol = 5e-14
 
-
-#######
-# test the integration of all possible combinations of the polynomial xᵏyˡzᵐ with k+l+m = n
-# NOTE: this takes a lot of time, hence it is disabled by default
-# last_order = 0
-# for order in keys(Lebedev.rules)
-#     @testset "lebedev order $order" begin
-#         for n = last_order+1:order
-#             for k = 0:n
-#                 for l = 0:n-k
-#                     m = n - l - k
-
-#                     # calculate quadrature points
-#                     x,y,z,w = lebedev_by_order(order)
-
-#                     integral = 0.0
-#                     for i = 1:length(w)
-#                         integral += 4.0*pi * w[i] * x[i]^k * y[i]^l * z[i]^m
-#                     end
-
-#                     @test integral ≈ sphere(k,l,m) rtol = tol atol = tol
-#                 end
-#             end
-#         end
-#     end
-#     global last_order = order
-# end
-
-########
-# shorter test, for each order, test all possible combinations of even and
-# odd orders (k and l) on x and y, with the order (m) of z obtained to sum up to n
+# test, for each order, all possible combinations of even and odd orders
+# (k and l) on x and y, with the order (m) of z obtained to sum up to n
 
 # special case for order 3
 @testset "lebedev order 3" begin
@@ -263,5 +234,3 @@ for order in keys(Lebedev.rules)
     end
     global last_order = order
 end
-
-# include("ccall.jl")
