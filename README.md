@@ -46,7 +46,7 @@ lebedev_by_order(n::Integer) -> x,y,z,w
 ```
 Both of them return four one-dimensional arrays of the same length, the first three containing
 the `x`, `y` and `z` Cartesian coordinates of the quadrature points (which lie on the unit sphere)
-and the last one containing the associated weights `w`.  
+and the last one containing the associated weights `w`.
 The `lebedev_by_points` function returns the points and weights corresponding to the `n`-point Lebedev
 rule, while the `lebedev_by_order` function returns the points and weights ensuring "exact"
 integration for a polynomial of order up to `n`.
@@ -56,6 +56,35 @@ Lebedev determined 65 quadrature rules ranging from order 3 up to order 131, inc
 Use the function `isavailable(n::Integer)` to know if the quadrature rule for a given order `n` is
 available and the function `availablerules()` to print out all available orders and corresponding
 number of points.
+
+## Examples
+
+```julia
+julia> @time lebedev_by_points(2702);
+  0.000053 seconds (8 allocations: 84.812 KiB)
+
+julia> @time lebedev_by_order(89);
+  0.000035 seconds (8 allocations: 84.812 KiB)
+
+julia> f(x,y,z) = x^2 * y^4 * z^6
+f (generic function with 1 method)
+
+# we need at least a rule of order n = 2+4+6 = 12
+julia> isavailable(12)
+false
+
+# only odd-numbered rules are implemented, check if n = 13 is available
+julia> isavailable(13)
+true
+
+julia> @time x,y,z,w = lebedev_by_order(13);
+  0.000007 seconds (4 allocations: 2.625 KiB)
+
+# integrates f(x,y,z) = x²y⁴z⁶ on the unit sphere
+julia> @time 4 * pi * dot(w,f.(x,y,z))
+  0.000063 seconds (5 allocations: 768 bytes)
+0.0041846055991871965
+```
 
 
 ## Reference
@@ -67,6 +96,6 @@ Vyacheslav Lebedev, Dmitri Laikov,
 ## License
 
 The Lebedev.jl package is released under the GNU General Public License, version 3.0.
-This implementation is based on a C source code developed by Dmitri Laikov and J. Burkardt, 
+This implementation is based on a C source code developed by Dmitri Laikov and John Burkardt,
 which can be found at
 https://people.sc.fsu.edu/~jburkardt/c_src/sphere_lebedev_rule/sphere_lebedev_rule.html.
