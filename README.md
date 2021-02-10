@@ -19,9 +19,9 @@ with a relative accuracy in the order of 5⋅10⁻¹⁴. The points created by t
 have octahedral rotation (Oₕ point group) and inversion symmetry, while the coefficients are
 normalized such that they sum up to one.
 
-<!-- ## Installation
+## Installation
 
-The `Lebedev.jl` package is tested with Julia 1.5 on Linux, MacOS and Windows. Previous versions of
+The `Lebedev.jl` package is tested with Julia 1.5 on Linux, MacOS and Windows. Previous versions
 of Julia starting at 1.0 might be supported as well, but are not tested; use it at your own risk.
 
 To install the latest version of the package, simply enter in the Julia package manager by typing `]`
@@ -29,7 +29,7 @@ in the REPL and issue
 ```julia
 pkg> add Lebedev
 ```
-That's it! You're good to go. -->
+That's it! You're good to go.
 
 ## Usage
 
