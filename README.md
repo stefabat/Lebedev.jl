@@ -21,7 +21,7 @@ normalized such that they sum up to one.
 
 ## Installation
 
-The `Lebedev.jl` package is tested with Julia 1.5 on Linux, MacOS and Windows. Previous versions
+The `Lebedev.jl` package is tested with Julia 1.5 and 1.6 on Linux, MacOS and Windows. Previous versions
 of Julia starting at 1.0 might be supported as well, but are not tested; use it at your own risk.
 
 To install the latest version of the package, simply enter in the Julia package manager by typing `]`

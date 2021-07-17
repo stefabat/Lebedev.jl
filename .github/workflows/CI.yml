@@ -19,8 +19,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         # the caret (^) mans to use the latest minor revision of the 1.5.x version
-        version: ['^1.5']
-    
+        version: ['^1.5','^1.6']
+
     # the type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
@@ -41,4 +41,3 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: lcov.info
-      
