@@ -237,18 +237,30 @@ end
 
 
 @testset "Query functions" begin
-    orders = Lebedev.getavailableorders()
-
     ispositive(x) = x > 0
     
+    orders = Lebedev.getavailableorders()
+    @test !isnothing(orders)
     # Test that the list has some elements in it
     @test !isempty(orders)
     # Test that the list is sorted in ascending order
     @test all(ispositive, orders[2:end] .- orders[1:end-1])
     
     points = Lebedev.getavailablepoints()
+    @test !isnothing(points)
     # Ditto
     @test !isempty(points)
     # Ditto
     @test all(ispositive, points[2:end] .- points[1:end-1])
+
+    rules = Lebedev.getavailablerules()
+    @test !isnothing(rules)
+    @test !isempty(rules)
+
+    # Try to modify the dictionary returned by `getavailablerules`
+    rules[orders[1]] = points[1] + 1
+
+    # Check that the list of rules has not changed
+    rules = Lebedev.getavailablerules()
+    @test rules[orders[1]] == points[1]
  end

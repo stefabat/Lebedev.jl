@@ -4656,6 +4656,15 @@ getavailablepoints() = values(rules) |> collect |> sort
 
 
 """
+    getavailablerules()
+
+Return a dictionary associating each order to its number of points.
+See also `getavailableorders`[@ref] and `getavailablepoints`[@ref].
+"""
+getavailablerules() = copy(rules)  # Return a copy
+
+
+"""
     lebedev_by_order(n::Integer)
 
 Compute the Lebedev angular grid corresponding to order number `n`.
