@@ -234,3 +234,21 @@ for order in keys(Lebedev.rules)
     end
     global last_order = order
 end
+
+
+@testset "Query functions" begin
+    orders = Lebedev.getavailableorders()
+
+    ispositive(x) = x > 0
+    
+    # Test that the list has some elements in it
+    @test !isempty(orders)
+    # Test that the list is sorted in ascending order
+    @test all(ispositive, orders[2:end] .- orders[1:end-1])
+    
+    points = Lebedev.getavailablepoints()
+    # Ditto
+    @test !isempty(points)
+    # Ditto
+    @test all(ispositive, points[2:end] .- points[1:end-1])
+ end

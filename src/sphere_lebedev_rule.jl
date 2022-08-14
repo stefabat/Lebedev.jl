@@ -4624,7 +4624,9 @@ end
 """
     availablerules()
 
-Print a table showing the available Lebedev quadrature rules.
+Print a table showing the available Lebedev quadrature rules. If you need
+to programmatically access the rules, use `getavailableorders`[@ref] and
+`getavailablepoints`[@ref].
 """
 function availablerules()
     println("order | points")
@@ -4633,6 +4635,24 @@ function availablerules()
         @printf("%5i | %6i\n",rule.first,rule.second)
     end
 end
+
+
+"""
+    getavailableorders()
+
+Return a list of the available orders, in ascending order. See also
+`getavailablepoints`[@ref].
+"""
+getavailableorders() = keys(rules) |> collect |> sort
+
+
+"""
+    getavailablepoints()
+
+Return a list of the available number of points, in ascending order.
+See also `getavailableorders`[@ref].
+"""
+getavailablepoints() = values(rules) |> collect |> sort
 
 
 """

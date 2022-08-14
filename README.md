@@ -55,7 +55,8 @@ Lebedev determined 65 quadrature rules ranging from order 3 up to order 131, inc
 (hence only odd-numbered orders are known), however, this package only provides a subset of them.
 Use the function `isavailable(n::Integer)` to know if the quadrature rule for a given order `n` is
 available and the function `availablerules()` to print out all available orders and corresponding
-number of points.
+number of points. If you need to access the list of available orders or points, use
+`getavailablerules()` and `getavailablepoints()`, which return lists sorted in ascending order.
 
 ## Examples
 
