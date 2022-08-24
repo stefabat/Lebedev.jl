@@ -45,5 +45,8 @@ export lebedev_by_points
 export lebedev_by_order
 export isavailable
 export availablerules
+export getavailablerules
+export getavailableorders
+export getavailablepoints
 
 end
